@@ -1,0 +1,22 @@
+:root { color-scheme: light; font: 14px/1.45 ui-sans-serif,system-ui,sans-serif; color:#19251f; background:#f4f2ec }
+* { box-sizing:border-box }
+body { margin:0; min-width:280px }
+main { padding:20px 16px 18px }
+header { border-bottom:1px solid #c8d0c6; padding-bottom:14px }
+.eyebrow { margin:0 0 5px; color:#a1482d; font-size:11px; font-weight:800; letter-spacing:.08em }
+h1 { margin:0; font:700 22px/1.1 Georgia,serif }
+.job { padding-top:17px }
+.job-head { display:flex; align-items:center; justify-content:space-between; gap:8px }
+h2 { margin:0; font-size:15px }
+#job-status { color:#315e48; font-size:12px; font-weight:700 }
+#job-status[data-running="true"]::before { display:inline-block; width:10px; height:10px; margin-right:6px; border:2px solid #b8c8bd; border-top-color:#315e48; border-radius:50%; content:""; vertical-align:-2px; animation:job-spin .8s linear infinite }
+@keyframes job-spin { to { transform:rotate(360deg) } }
+progress { display:block; width:100%; height:10px; margin:16px 0 5px; accent-color:#315e48 }
+#progress-label { margin:0 0 14px; color:#5c665f; font-size:12px }
+button { width:100%; min-height:42px; border:0; border-radius:5px; background:#315e48; color:white; font:700 13px system-ui,sans-serif; cursor:pointer }
+button:disabled { opacity:.55; cursor:default }
+ul { display:grid; gap:5px; max-height:48vh; overflow:auto; margin:16px 0 0; padding:0; list-style:none }
+li { display:flex; justify-content:space-between; gap:8px; padding:7px 9px; background:white; border:1px solid #d7ddd5; border-radius:4px; font-size:12px }
+li[data-status="complete"] span:last-child { color:#246a43; font-weight:700 }
+.footer { margin:16px 0 0; padding-top:11px; border-top:1px solid #c8d0c6; color:#68716b; font-size:11px }
+@media (prefers-reduced-motion:reduce) { #job-status[data-running="true"]::before { animation:none } }
