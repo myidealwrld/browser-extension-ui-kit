@@ -1,47 +1,59 @@
 # Browser Extension UI Kit
 
-A standalone Chrome Manifest V3 demonstration of a floating launcher, side panel, per-item progress, and persisted background-job state. The demo processes 25 local items and has no backend.
+A standalone Chrome Manifest V3 demo of a floating launcher, native side panel, per-item progress, and recoverable background-job state.
 
 ## Features
 
-- Toolbar action opens the side panel and injects a floating launcher into the active tab.
-- Closing/reopening the panel restores saved progress from `chrome.storage.local`.
-- The job does not depend on the current tab and stores progress after each item.
-- A recovery alarm resumes a running job if the service worker is restarted.
-- Per-item statuses and real completed/total counts are shown.
+- Toolbar action opens the Chrome side panel.
+- The toolbar action also injects a floating launcher into the active page when Chrome allows script injection.
+- The launcher can reopen the side panel from a page-level user gesture.
+- Background progress is persisted in `chrome.storage.local`.
+- A recovery alarm is recreated after startup/service-worker recovery and resumes unfinished work.
+- Closing the panel or tab does not discard the saved job.
+- Per-item progress uses real completed/total counts.
+- Runtime failures are surfaced in the panel instead of failing silently.
+- Reset control clears demo state and recovery alarms.
 
 ## Installation
 
-Use Chrome 116 or newer. Open `chrome://extensions`, enable Developer mode, choose **Load unpacked**, and select this directory. No package installation or build is needed.
+Chrome 120+ is required.
 
-## Quick start and expected output
+1. Clone/download this repo.
+2. Open `chrome://extensions`.
+3. Enable **Developer mode**.
+4. Choose **Load unpacked** and select this repo folder.
+5. Open a normal `http://` or `https://` page.
+6. Click the extension icon.
 
-Click the extension icon on a normal web tab. The panel opens and a floating **Open job panel** button is injected into that tab. Choose **Process 25 demo items**. The count advances to 25/25; close the panel or tab while it runs and reopen the panel to see the persisted state.
+The side panel should open immediately. On ordinary pages a floating **Open job panel** button is also injected. Chrome internal pages such as `chrome://extensions` intentionally reject content-script injection; the side panel itself can still open from the toolbar.
 
-## Configuration
+## Demo
 
-The extension requests only `activeTab`, `scripting`, `sidePanel`, `storage`, and `alarms`. It has no host permissions, tokens, API URLs, scanning logic, or user account settings.
+Choose **Process 25 demo items**. Progress is stored after every item. Close the panel while it runs, then reopen it: the state is restored and recovery logic resumes an unfinished job if the service worker has restarted.
 
 ## Architecture
 
-`service-worker.js` owns job lifecycle and storage. `lib/job-state.mjs` is a pure serializable state transition helper. `content/launcher.js` adds the user-triggered panel launcher. `sidepanel/` renders progress and reconnects to stored state when reopened.
+- `service-worker.js`: lifecycle, storage, alarms, side-panel opening
+- `lib/job-state.mjs`: pure serializable job transitions
+- `content/launcher.js`: floating page launcher
+- `sidepanel/`: UI and storage-change rendering
 
-## Development and testing
+There is no backend, account system, host permission, scanner, or proprietary API.
+
+## Development
 
 ```sh
 npm test
-node --check service-worker.js
-node --check sidepanel/panel.js
-node --check content/launcher.js
-node -e 'JSON.parse(require("node:fs").readFileSync("manifest.json", "utf8"))'
+npm run check
+node -e 'JSON.parse(require("node:fs").readFileSync("manifest.json","utf8"))'
 ```
 
-The state unit tests run in Node. Loading and exercising the unpacked extension in Chrome is still required before a READY release; that browser-runtime check has not yet been performed in this staging session.
+Unit tests cover job-state transitions. CI checks JavaScript syntax and the manifest. Chrome runtime behavior still depends on browser APIs, so contributors should also load the unpacked extension before release.
 
 ## Security
 
-The demo stores only synthetic progress locally. It injects the launcher only into the active tab after a toolbar click and does not request `<all_urls>` access.
+The demo stores only synthetic local progress. It requests no host permissions and only injects into the active tab after a toolbar user gesture.
 
-## Licence
+## License
 
 Apache-2.0. See `LICENSE`.
