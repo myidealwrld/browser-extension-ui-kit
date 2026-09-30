@@ -9,14 +9,18 @@
 <body>
   <main>
     <header><p class="eyebrow">MV3 SIDE PANEL</p><h1>Background job</h1></header>
+    <p id="error" class="error" role="alert" hidden></p>
     <section class="job" aria-live="polite">
       <div class="job-head"><h2 id="job-title">No job started</h2><span id="job-status">Ready</span></div>
       <progress id="progress" max="25" value="0"></progress>
       <p id="progress-label">0 of 25 items complete</p>
-      <button id="start" type="button">Process 25 demo items</button>
+      <div class="actions">
+        <button id="start" type="button">Process 25 demo items</button>
+        <button id="reset" class="secondary" type="button">Reset</button>
+      </div>
       <ul id="items" aria-label="Demo item progress"></ul>
     </section>
-    <p class="footer">The job state is saved locally and continues independently of this panel and tab.</p>
+    <p class="footer">State is saved in chrome.storage.local. A recovery alarm recreates/resumes the runner after service-worker restarts.</p>
   </main>
   <script type="module" src="panel.js"></script>
 </body>
