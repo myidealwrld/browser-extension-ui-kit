@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
   "name": "Side Panel Job Demo",
-  "version": "0.1.0",
-  "description": "A generic demo of a floating launcher, persistent side panel, and background job progress.",
+  "version": "0.2.0",
+  "minimum_chrome_version": "120",
+  "description": "A generic demo of a floating launcher, persistent side panel, and recoverable background job progress.",
   "permissions": ["activeTab", "alarms", "scripting", "sidePanel", "storage"],
   "background": { "service_worker": "service-worker.js", "type": "module" },
   "action": { "default_title": "Open job demo" },
