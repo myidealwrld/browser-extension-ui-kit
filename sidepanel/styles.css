@@ -5,6 +5,7 @@ main { padding:20px 16px 18px }
 header { border-bottom:1px solid #c8d0c6; padding-bottom:14px }
 .eyebrow { margin:0 0 5px; color:#a1482d; font-size:11px; font-weight:800; letter-spacing:.08em }
 h1 { margin:0; font:700 22px/1.1 Georgia,serif }
+.error { margin:14px 0 0; padding:10px; border:1px solid #d8a393; border-radius:5px; background:#fff0ec; color:#8b321f; font-size:12px }
 .job { padding-top:17px }
 .job-head { display:flex; align-items:center; justify-content:space-between; gap:8px }
 h2 { margin:0; font-size:15px }
@@ -13,7 +14,9 @@ h2 { margin:0; font-size:15px }
 @keyframes job-spin { to { transform:rotate(360deg) } }
 progress { display:block; width:100%; height:10px; margin:16px 0 5px; accent-color:#315e48 }
 #progress-label { margin:0 0 14px; color:#5c665f; font-size:12px }
-button { width:100%; min-height:42px; border:0; border-radius:5px; background:#315e48; color:white; font:700 13px system-ui,sans-serif; cursor:pointer }
+.actions { display:grid; grid-template-columns:1fr auto; gap:8px }
+button { min-height:42px; border:0; border-radius:5px; background:#315e48; color:white; padding:0 14px; font:700 13px system-ui,sans-serif; cursor:pointer }
+button.secondary { background:#e4e8e2; color:#274235 }
 button:disabled { opacity:.55; cursor:default }
 ul { display:grid; gap:5px; max-height:48vh; overflow:auto; margin:16px 0 0; padding:0; list-style:none }
 li { display:flex; justify-content:space-between; gap:8px; padding:7px 9px; background:white; border:1px solid #d7ddd5; border-radius:4px; font-size:12px }
